@@ -20,4 +20,4 @@ jobs:
     - name: Build
       run: dotnet build ./WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
     - name: Test
-      run: dotnet test ./WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build --verbosity normal
+      run: dotnet test ./WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build
