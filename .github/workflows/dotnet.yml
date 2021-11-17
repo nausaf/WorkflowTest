@@ -14,6 +14,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Build
-      run: dotnet build ./WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csprojj
+      run: dotnet build ./WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
     - name: Test
       run: dotnet test ./WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build
