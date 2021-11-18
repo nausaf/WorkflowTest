@@ -32,16 +32,16 @@ jobs:
         targetdir: 'coveragereport'
         reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
 
+    - name: Append link to artifacts in coverage summary
+      run: |
+        echo '#HTML coverage report'
+        echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/Summary.md
+
     - name: Upload ReportGenerator report as artifact
       uses: actions/upload-artifact@v2
       with:
         name: ReportGenerator coverage report
         path: coveragereport/
-
-    - name: Append link to artifacts in coverage summary
-      run: |
-        echo '#HTML coverage report'
-        echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/Summary.md
 
     - name: Publish coverage summary
       uses: marocchino/sticky-pull-request-comment@v2
