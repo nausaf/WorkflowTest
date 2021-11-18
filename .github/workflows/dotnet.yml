@@ -23,13 +23,13 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./WorkflowTest.Adder.UnitTests/TestResults/Coverage/
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=WorkflowTest.Adder.UnitTests/TestResults/Coverage/
 
     - name: Upload coverage results as artifact
       uses: actions/upload-artifact@v2
       with:
         name: coverage-result
-        path: ./WorkflowTest.Adder.UnitTests/TestResults/Coverage/
+        path: WorkflowTest.Adder.UnitTests/TestResults/Coverage/
 
     - name: Generate Coverage Report
       uses: danielpalme/ReportGenerator-GitHub-Action@5.0.0
