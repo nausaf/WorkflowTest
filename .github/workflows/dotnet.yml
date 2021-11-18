@@ -28,7 +28,7 @@ jobs:
     - name: Generate Coverage Report
       uses: danielpalme/ReportGenerator-GitHub-Action@5.0.0
       with:
-        reports: 'WorkflowTest.Adder.UnitTests/TestResults/Coverage/Coverage.cobertura.xml'
+        reports: './WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.cobertura.xml'
         targetdir: 'coveragereport'
         reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
 
