@@ -34,7 +34,7 @@ jobs:
 
     - name: Append link to artifacts in coverage summary
       run: |
-        echo '# HTML coverage report' >> coveragereport/Summary.md
+        echo '# Coverage Report' >> coveragereport/Summary.md
         echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/Summary.md
 
     - name: Upload ReportGenerator report as artifact
