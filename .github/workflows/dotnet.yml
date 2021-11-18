@@ -32,13 +32,19 @@ jobs:
         targetdir: 'coveragereport'
         reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
 
-    - name: Publish coverage summary
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        path: coveragereport/Summary.md
-
     - name: Upload ReportGenerator report as artifact
       uses: actions/upload-artifact@v2
       with:
         name: ReportGenerator coverage report
         path: coveragereport/
+
+
+    - name: Publish coverage summary
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        path: coveragereport/Summary.md
+
+    - name: Publish coverage report URL
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        message: Hello
