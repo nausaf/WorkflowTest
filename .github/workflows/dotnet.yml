@@ -30,7 +30,7 @@ jobs:
       with:
         reports: './WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.cobertura.xml'
         targetdir: 'coveragereport'
-        reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
+        reporttypes: 'HtmlInline;Cobertura;MarkdownSummary;Badges'
 
     - name: Append link to artifacts in coverage summary
       run: |
