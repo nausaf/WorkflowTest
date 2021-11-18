@@ -39,7 +39,9 @@ jobs:
         path: coveragereport/
 
     - name: Append link to artifacts in coverage summary
-      run: echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/Summary.md
+      run: |
+        echo '#HTML coverage report'
+        echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/Summary.md
 
     - name: Publish coverage summary
       uses: marocchino/sticky-pull-request-comment@v2
