@@ -36,3 +36,9 @@ jobs:
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         path: coveragereport/Summary.md
+
+    - name: Upload ReportGenerator report as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ReportGenerator coverage report
+        path: coveragereport/
