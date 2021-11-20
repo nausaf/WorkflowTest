@@ -52,7 +52,7 @@ jobs:
       run: |
         echo '[![Coverage Badge](.github/badges/coverage_badge.svg)]' >> coveragereport/ModifiedSummary.md
         echo -e '\n' >> coveragereport/ModifiedSummary.md
-        echo coveragereport/Summary.md >> coveragereport/ModifiedSummary.md
+        cat coveragereport/Summary.md >> coveragereport/ModifiedSummary.md
         echo '# Coverage Report' >> coveragereport/ModifiedSummary.md
         echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/ModifiedSummary.md
 
