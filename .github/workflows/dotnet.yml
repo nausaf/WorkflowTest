@@ -37,6 +37,14 @@ jobs:
         echo '# Coverage Report' >> coveragereport/Summary.md
         echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/Summary.md
 
+    name: copy coverage badge to .github
+      run: cp coveragereport/badge_combined.svg .github/badges/coverage_badge.svg
+
+    - name: Store coverage badge in repo
+      uses: EndBug/add-and-commit@v7
+      with:
+        add: .github/badges/coverage_badge.svg
+
     - name: Upload ReportGenerator report as artifact
       uses: actions/upload-artifact@v2
       with:
