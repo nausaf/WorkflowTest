@@ -36,6 +36,7 @@ jobs:
       run: |
         mkdir -p .github/badges
         cp coveragereport/badge_combined.svg .github/badges/coverage_badge.svg
+        cp coveragereport/badge_linecoverage.svg .github/badges/linecoverage_badge.svg
 
     - name: Store coverage badge in repo
       uses: EndBug/add-and-commit@v7
@@ -50,7 +51,8 @@ jobs:
 
     - name: Modify coverage summary to include badge and link to artifact
       run: |
-        echo '[![Coverage Badge](.github/badges/coverage_badge.svg)]' >> coveragereport/ModifiedSummary.md
+        echo '[![Combined Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}.github/badges/coverage_badge.svg)]' >> coveragereport/ModifiedSummary.md
+        echo '[![Line Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}.github/badges/linecoverage_badge.svg)]' >> coveragereport/ModifiedSummary.md
         echo -e '\n' >> coveragereport/ModifiedSummary.md
         cat coveragereport/Summary.md >> coveragereport/ModifiedSummary.md
         echo '# Coverage Report' >> coveragereport/ModifiedSummary.md
