@@ -41,8 +41,7 @@ jobs:
     - name: Store coverage badge in repo
       uses: EndBug/add-and-commit@v7
       with:
-        add: .github/badges/coverage_badge.svg
-        add: .github/badges/linecoverage_badge.svg
+        add: .github/badges/*coverage_badge.svg
 
     - name: Upload ReportGenerator report as artifact
       uses: actions/upload-artifact@v2
