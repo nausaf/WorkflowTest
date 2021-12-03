@@ -56,7 +56,7 @@ jobs:
     # This particular property of the context `github` is only available if the
     # workflow was triggred on events pull_request or pull_request_target
     - name: Modify coverage summary to include badge and link to artifact (pull request version)
-      if: ${{ github.event == 'pull_request' }}
+      if: ${{ github.event_name == 'pull_request' }}
       run: |
         echo '![Line Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/linecoverage_badge.svg)' >> coveragereport/ModifiedSummary.md
         echo -e '\n' >> coveragereport/ModifiedSummary.md
@@ -65,7 +65,7 @@ jobs:
         echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/ModifiedSummary.md
 
     - name: Publish coverage summary
-      if: ${{ github.event == 'pull_request' }}
+      if: ${{ github.event_name == 'pull_request' }}
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         path: coveragereport/ModifiedSummary.md
