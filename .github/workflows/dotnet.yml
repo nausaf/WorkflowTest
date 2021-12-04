@@ -25,6 +25,9 @@ jobs:
     - name: Test
       run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
 
+    - name: Test
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
+
     - name: Upload coverage to Codecov
       if: ${{ always() }}
       uses: codecov/codecov-action@v2
