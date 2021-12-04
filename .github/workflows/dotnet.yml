@@ -31,6 +31,8 @@ jobs:
         FILE=TestResults/Coverage/coverage.info
         if test -f "$FILE"; then
           echo "coverage_generated=true" >> $GITHUB_ENV
+        else
+          echo "coverage_generated=false" >> $GITHUB_ENV
         fi
 
     - name: WriteCoverageWasGenerated
