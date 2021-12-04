@@ -5,7 +5,7 @@ namespace WorkflowTest.Adder.UnitTests
     public class MultiplierTests
     {
         [Theory]
-        [InlineData("non zero", 52, 13, 4)]
+        [InlineData("non zero", 52, 3, 156)]
         [InlineData("zero dividend", 0, 13, 0)]
         public void Multiply(string label, int leftOp, int rightOp, double expected)
         {
