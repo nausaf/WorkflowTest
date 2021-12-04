@@ -32,7 +32,10 @@ jobs:
         if test -f "$FILE"; then
           echo "coverage_generated=true" >> $GITHUB_ENV
         fi
-        echo ${{ env.coverage_generated }}
+
+    - name: WriteCoverageWasGenerated
+      if: ${{ always() }}
+      run: echo ${{ env.coverage_generated }}
 
     - name: Upload coverage to Codecov
       if: ${{ always() && env.coverage_generated == 'true' }}
