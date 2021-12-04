@@ -35,13 +35,7 @@ jobs:
           echo "coverage_generated=false" >> $GITHUB_ENV
         fi
 
-    - name: WriteCoverageWasGenerated
-      if: ${{ always() }}
-      run: |
-        echo "Deploying to production server on branch $GITHUB_REF"
-        echo "${{ env.coverage_generated }}"
-
-    - name: Upload coverage to Codecov
+    - name: Upload coverage to Codecov if coverage was generated
       if: ${{ always() && env.coverage_generated == 'true' }}
       uses: codecov/codecov-action@v2
 
