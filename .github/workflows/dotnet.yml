@@ -23,7 +23,13 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line | tee -a testOutput.txt
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
+
+    - name: Upload ReportGenerator report as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ReportGenerator coverage report
+        path: /
 
     - name: CheckCoverageWasGenerated
       if: ${{ always() }}
@@ -36,11 +42,12 @@ jobs:
           echo "coverage was not generated"
           exit 1
         fi
-    - name: CheckCoverageThresholdMet
-      run: |
-        if grep -q "error : The minimum line coverage is below the specified" testOutput.txt; then
-          echo "Coverage threshold not met"
-        fi
+
+    # - name: CheckCoverageThresholdMet
+    #   run: |
+    #     if grep -q "error : The minimum line coverage is below the specified" testOutput.txt; then
+    #       echo "Coverage threshold not met"
+    #     fi
 
     - name: Upload coverage to Codecov if coverage was generated
       if: ${{ always() && env.coverage_generated == 'true' }}
