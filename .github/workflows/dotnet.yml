@@ -26,6 +26,7 @@ jobs:
       run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
 
     - name: FlagCoverageWasGenerated
+      if: ${{ always() }}
       run: |
         FILE=TestResults/Coverage/coverage.info
         if test -f "$FILE"; then
