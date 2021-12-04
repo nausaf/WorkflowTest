@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ReportGenerator coverage report
-        path: /TestResults/Coverage/
+        path: TestResults/Coverage/coverage.info
 
     - name: CheckCoverageWasGenerated
       if: ${{ always() }}
