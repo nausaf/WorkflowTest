@@ -23,49 +23,8 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/
 
-    - name: Generate Coverage Report
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.0.0
-      with:
-        reports: './WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.cobertura.xml'
-        targetdir: 'coveragereport'
-        reporttypes: 'HtmlInline;Cobertura;MarkdownSummary;Badges'
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
 
-    - name: copy coverage badge to .github
-      run: |
-        mkdir -p .github/badges
-        cp coveragereport/badge_linecoverage.svg .github/badges/linecoverage_badge.svg
-
-    - name: Store coverage badge in repo
-      uses: EndBug/add-and-commit@v7
-      with:
-        add: .github/badges/*coverage_badge.svg
-
-    - name: Upload ReportGenerator report as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ReportGenerator coverage report
-        path: coveragereport/
-
-    # The next two steps are only for pull requests because the coverage summary only needs to be
-    # written on a sticky comment in a pull request.
-    #
-    # The next step in particular would output an incorrect URL for the coverage badge
-    # because it uses github.head_ref to get name of the source branch of the pull request
-    # This particular property of the context `github` is only available if the
-    # workflow was triggred on events pull_request or pull_request_target
-    - name: Modify coverage summary to include badge and link to artifact (pull request version)
-      if: ${{ github.event_name == 'pull_request' }}
-      run: |
-        echo '![Line Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/linecoverage_badge.svg)' >> coveragereport/ModifiedSummary.md
-        echo -e '\n' >> coveragereport/ModifiedSummary.md
-        cat coveragereport/Summary.md >> coveragereport/ModifiedSummary.md
-        echo '# Coverage Report' >> coveragereport/ModifiedSummary.md
-        echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/ModifiedSummary.md
-
-    - name: Publish coverage summary
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        path: coveragereport/ModifiedSummary.md
