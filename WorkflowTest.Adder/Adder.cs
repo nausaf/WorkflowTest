@@ -14,7 +14,7 @@ namespace WorkflowTest.Adder
 
         public double Subtract(int x, int y)
         {
-            return x + y;
+            return x - y;
 
         }
     }
