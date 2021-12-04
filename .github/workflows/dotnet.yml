@@ -33,7 +33,8 @@ jobs:
           echo "coverage_generated=true" >> $GITHUB_ENV
         else
           echo "coverage_generated=false" >> $GITHUB_ENV
-          (exit 1) || echo "coverage was not generated"
+          echo "coverage was not generated"
+          exit 1
         fi
 
     - name: Upload coverage to Codecov if coverage was generated
