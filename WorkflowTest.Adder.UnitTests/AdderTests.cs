@@ -36,5 +36,24 @@ namespace WorkflowTest.Adder.UnitTests
 
         }
 
+        [Theory]
+        [InlineData("left op larger", 5, 2, 3)]
+        [InlineData("left op equal to right", 2, 2, 0)]
+        [InlineData("left op zero", 0, 2, -2)]
+        [InlineData("right op zero", 5, 0, 0)]
+        [InlineData("botht op zero", 0, 0, 0)]
+        public void Subtract(string label, int leftOperand, int rightOperand, int expected)
+        {
+            //arrange
+            var adder = new Adder();
+
+            //act
+            double result = adder.Subtract(leftOperand, rightOperand);
+
+            //assert
+            Assert.Equal(expected, result);
+
+        }
+
     }
 }
