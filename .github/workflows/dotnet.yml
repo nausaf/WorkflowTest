@@ -51,6 +51,6 @@ jobs:
     #     fi
 
     - name: Upload coverage to Codecov if coverage was generated
-      if: ${{ always() && env.coverage_generated == 'true' }}
+      # if: ${{ always() && env.coverage_generated == 'true' }}
       uses: codecov/codecov-action@v2
 
