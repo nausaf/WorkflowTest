@@ -42,7 +42,7 @@ namespace WorkflowTest.Adder.UnitTests
         [InlineData("left op zero", 0, 2, -2)]
         [InlineData("right op zero", 5, 0, 5)]
         [InlineData("botht op zero", 0, 0, 0)]
-        [InlineData("botht op negative", -5, -6, -11)]
+        [InlineData("botht op negative", -5, -6, 1)]
         public void Subtract(string label, int leftOperand, int rightOperand, int expected)
         {
             //arrange
