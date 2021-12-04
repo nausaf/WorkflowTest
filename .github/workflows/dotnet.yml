@@ -30,12 +30,12 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ReportGenerator coverage report
-        path: TestResults/Coverage/
+        path: /TestResults/Coverage/
 
     - name: CheckCoverageWasGenerated
       if: ${{ always() }}
       run: |
-        FILE=TestResults/Coverage/coverage.info
+        FILE=/TestResults/Coverage/coverage.info
         if test -f "$FILE"; then
           echo "coverage_generated=true" >> $GITHUB_ENV
         else
