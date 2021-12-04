@@ -35,7 +35,9 @@ jobs:
 
     - name: WriteCoverageWasGenerated
       if: ${{ always() }}
-      run: echo $coverage_generated
+      run: |
+        echo "Deploying to production server on branch $GITHUB_REF"
+        echo $coverage_generated
 
     - name: Upload coverage to Codecov
       if: ${{ always() && env.coverage_generated == 'true' }}
