@@ -22,13 +22,13 @@ jobs:
     - name: Build
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
+    - name: FlagBuildSucceeded
+      run: echo "build_succeeded=true" >> $GITHUB_ENV
+
     - name: Test
       run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
 
-    - name: TestAgain
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
-
     - name: Upload coverage to Codecov
-      if: ${{ always() }}
+      if: ${{ build_succeeded== 'true' }}
       uses: codecov/codecov-action@v2
 
