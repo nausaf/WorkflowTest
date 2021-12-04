@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ReportGenerator coverage report
-        path: ./WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.info
+        path: ./WorkflowTest.Adder.UnitTests/TestResults/Coverage/
 
     - name: CheckCoverageWasGenerated
       if: ${{ always() }}
