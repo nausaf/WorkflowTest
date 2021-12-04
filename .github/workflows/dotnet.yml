@@ -30,5 +30,4 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
         files: ./WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.cobertura.xml # comma separated paths
-        fail_ci_if_error: true # default is false
         verbose: true # default is false
