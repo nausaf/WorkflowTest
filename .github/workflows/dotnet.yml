@@ -23,7 +23,9 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line |& tee testOutput.txt
+      # adding is attribute here to be able to retrieve this step's console output in a later step
+      id:
+      run: (dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line) | tee outputFile.txt
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
@@ -38,11 +40,12 @@ jobs:
     # coverage info using ReportGenerator or CodeCov etc., and only then fail the workflow
     # if coerage threshold is not met.
     #
-    - name: CheckCoverageThresholdMet
-      run: |
-        if grep -q "error : The minimum line coverage is below the specified" testOutput.txt; then
-          echo "Coverage threshold not met"
-        fi
+    # - name: CheckCoverageThresholdMet
+    #   if: ${{ contains("error : The minimum line coverage is below the specified", ) }}
+    #   run: |
+    #     if grep -q  testOutput.txt; then
+    #       echo "Coverage threshold not met"
+    #     fi
 
 
 
