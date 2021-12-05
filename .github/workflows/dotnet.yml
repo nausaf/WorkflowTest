@@ -23,7 +23,7 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ p:Threshold=100 /p:ThresholdType=line
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --collect:"XPlat Code Coverage" --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ p:Threshold=100 /p:ThresholdType=line
 
     # - name: Upload coverage to Codecov if coverage was generated
     #   # if: ${{ always() && env.coverage_generated == 'true' }}
@@ -39,7 +39,7 @@ jobs:
     - name: CheckCoverageWasGenerated
       if: ${{ always() }}
       run: |
-        FILE=./WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.info
+        FILE=WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.info
         if test -f "$FILE"; then
           echo "coverage_generated=true" >> $GITHUB_ENV
         else
