@@ -39,7 +39,7 @@ jobs:
     - name: CheckCoverageWasGenerated
       if: ${{ always() }}
       run: |
-        FILE=/TestResults/Coverage/coverage.info
+        FILE=./WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.info
         if test -f "$FILE"; then
           echo "coverage_generated=true" >> $GITHUB_ENV
         else
