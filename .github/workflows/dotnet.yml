@@ -22,9 +22,9 @@ jobs:
     - name: Build
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
-    # - name: Test
-    #   # adding is attribute here to be able to retrieve this step's console output in a later step
-    #   run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/
+    - name: Test
+      # adding is attribute here to be able to retrieve this step's console output in a later step
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
