@@ -24,7 +24,7 @@ jobs:
 
     - name: Test
       # adding is attribute here to be able to retrieve this step's console output in a later step
-      run: (dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line) | tee outputFile.txt
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ /p:Threshold=100 /p:ThresholdType=line
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
