@@ -23,36 +23,26 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --collect:"XPlat Code Coverage" --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/
+      run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=TestResults/Coverage/ p:Threshold=100 /p:ThresholdType=line | tee testOutput.txt
 
-    # - name: Upload coverage to Codecov if coverage was generated
-    #   # if: ${{ always() && env.coverage_generated == 'true' }}
-    #   uses: codecov/codecov-action@v2
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
 
-    - name: Upload ReportGenerator report as artifact
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: ReportGenerator coverage report
-        path: ./WorkflowTest.Adder.UnitTests/TestResults/
-
-    - name: CheckCoverageWasGenerated
-      if: ${{ always() }}
+    # Whenever I tun dotnet test with "p:Threshold=100 /p:ThresholdType=line" and the threshold is not met,
+    # coverage report is not generated even thougn I see it output to the screen.
+    # I have tried both without the --collect:"XPlat Code Coverage" parameter (I don't normally use it
+    # in workflows and Coverlet coverage still gets collected; I do specify Coverlet-specific properties though)
+    # and with it but to no avail.
+    #
+    # Therefore, we first generate coverage from running the tests, generate reports from collected
+    # coverage info using ReportGenerator or CodeCov etc., and only then fail the workflow
+    # if coerage threshold is not met.
+    #
+    - name: CheckCoverageThresholdMet
       run: |
-        FILE=WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.info
-        if test -f "$FILE"; then
-          echo "coverage_generated=true" >> $GITHUB_ENV
-        else
-          echo "coverage_generated=false" >> $GITHUB_ENV
-          echo "coverage was not generated"
-          exit 1
+        if grep -q "error : The minimum line coverage is below the specified" testOutput.txt; then
+          echo "Coverage threshold not met"
         fi
-
-    # - name: CheckCoverageThresholdMet
-    #   run: |
-    #     if grep -q "error : The minimum line coverage is below the specified" testOutput.txt; then
-    #       echo "Coverage threshold not met"
-    #     fi
 
 
 
