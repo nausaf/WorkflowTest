@@ -28,6 +28,8 @@ jobs:
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: true # default is false but out coverage target being met depends on this succeeding
 
     # Whenever I tun dotnet test with "p:Threshold=100 /p:ThresholdType=line" and the threshold is not met,
     # coverage report is not generated even thougn I see it output to the screen.
