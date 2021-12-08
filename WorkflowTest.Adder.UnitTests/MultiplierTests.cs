@@ -18,5 +18,19 @@ namespace WorkflowTest.Adder.UnitTests
             //assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void testBranchVsLine()
+        {
+            //arrange
+            Multiplier mult = new Multiplier();
+            const int valToTestWith = 4;
+
+            //act
+            int result = mult.testBranchVsLine(valToTestWith);
+
+            //assert
+            Assert.Equal(16, result);
+        }
     }
 }
