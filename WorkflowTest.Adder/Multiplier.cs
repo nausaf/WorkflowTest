@@ -11,5 +11,18 @@ namespace WorkflowTest.Adder
         // {
         //     return x / y;
         // }
+
+        public int testBranchVsLine(int x)
+        {
+            int result = 0;
+            if (x > 2)
+            {
+
+                result = x * x;
+            }
+
+            return result;
+        }
+
     }
 }
