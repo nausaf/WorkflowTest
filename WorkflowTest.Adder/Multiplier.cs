@@ -7,9 +7,9 @@ namespace WorkflowTest.Adder
             return x * y;
         }
 
-        public double Divide(int x, int y)
-        {
-            return x / y;
-        }
+        // public double Divide(int x, int y)
+        // {
+        //     return x / y;
+        // }
     }
 }
