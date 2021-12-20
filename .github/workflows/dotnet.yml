@@ -61,7 +61,7 @@ jobs:
     - name: Modify coverage summary to include badge and link to artifact (pull request version)
       if: ${{ github.event_name == 'pull_request' }}
       run: |
-        echo '![Line Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/linecoverage_badge.svg)  ' >> coveragereport/ModifiedSummary.md
+        echo -n '![Line Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/linecoverage_badge.svg)  ' >> coveragereport/ModifiedSummary.md
         echo '![Branch Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/branchcoverage_badge.svg)' >> coveragereport/ModifiedSummary.md
         echo -e '\n' >> coveragereport/ModifiedSummary.md
         cat coveragereport/Summary.md >> coveragereport/ModifiedSummary.md
