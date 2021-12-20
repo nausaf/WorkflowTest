@@ -76,4 +76,3 @@ jobs:
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         path: coveragereport/ModifiedSummary.md
-    ```
