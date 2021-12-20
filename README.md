@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/nausaf/WorkflowTest/branch/main/graph/badge.svg?token=I0LJH0VN3T)](https://codecov.io/gh/nausaf/WorkflowTest)
+![line coverage]((https://raw.githubusercontent.com/nausaf/WorkflowTest/main/.github/badges/linecoverage_badge.svg)
 
 # WorkflowTest
 
