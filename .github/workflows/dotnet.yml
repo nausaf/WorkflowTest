@@ -23,26 +23,38 @@ jobs:
       run: dotnet build WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj
 
     - name: Test
-      # Whenever I run dotnet test with "/p:Threshold=100 /p:ThresholdType=line" and the threshold is not met,
-      # coverage report is not generated even thougn I see it output to the screen.
-      # I have tried both without the --collect:"XPlat Code Coverage" parameter (I don't normally use it
-      # in workflows and Coverlet coverage still gets collected; I do specify Coverlet-specific properties though)
-      # and with it but to no avail.
-      #
-      # Therefore, we first generate coverage from running the tests, generate reports from collected
-      # coverage info using ReportGenerator or CodeCov etc., and only then fail the workflow
-      # if coerage threshold is not met (the way we fail the workflow or status check
-      # depends on whether we're using Report Generator or Code Cov. In latter case we just include
-      # status check "codecov/project" in branch protection of the main branch.)
       run: dotnet test WorkflowTest.Adder.UnitTests/WorkflowTest.Adder.UnitTests.csproj --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=TestResults/Coverage/
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
+    - name: Generate Coverage Report
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.0.0
       with:
-        # default is false but out coverage target being met depends on the upload succeeding
-        # Note however that even if the coverage data file is not generated, this action still succeeds.
-        # It seems from logs that it uploads codecov.yml config file and the two svg badge files
-        # I alrady have in 'github/badges' (generated a while back by Report Generator)
-        fail_ci_if_error: true
+        reports: './WorkflowTest.Adder.UnitTests/TestResults/Coverage/coverage.cobertura.xml'
+        targetdir: 'coveragereport'
+        reporttypes: 'HtmlInline;Cobertura;MarkdownSummary;Badges'
 
+    - name: Upload ReportGenerator report as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ReportGenerator coverage report
+        path: coveragereport/
 
+    - name: copy coverage badge to .github
+      run: |
+        mkdir -p .github/badges
+        cp coveragereport/badge_linecoverage.svg .github/badges/linecoverage_badge.svg
+        cp coveragereport/badge_branchcoverage.svg .github/badges/branchcoverage_badge.svg
+
+    - name: Store coverage badge in repo
+      if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      uses: EndBug/add-and-commit@v7
+      with:
+        add: .github/badges/*coverage_badge.svg
+
+    # The next two steps are only for pull requests because the coverage summary only needs to be
+    # written on a sticky comment in a pull request.
+
+    - name: Publish coverage summary
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        path: coveragereport/Summary.md
