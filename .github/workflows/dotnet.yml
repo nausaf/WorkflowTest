@@ -44,11 +44,7 @@ jobs:
         cp coveragereport/badge_linecoverage.svg .github/badges/linecoverage_badge.svg
         cp coveragereport/badge_branchcoverage.svg .github/badges/branchcoverage_badge.svg
 
-    - name: Store coverage badge in repo
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: EndBug/add-and-commit@v7
-      with:
-        add: .github/badges/*coverage_badge.svg
+
 
     # The next two steps are only for pull requests because the coverage summary only needs to be
     # written on a sticky comment in a pull request.
