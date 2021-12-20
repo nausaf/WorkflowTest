@@ -44,17 +44,35 @@ jobs:
         cp coveragereport/badge_linecoverage.svg .github/badges/linecoverage_badge.svg
         cp coveragereport/badge_branchcoverage.svg .github/badges/branchcoverage_badge.svg
 
+    # The next few steps are only to be run on pull_request because :
+    # 1. files can't be added to repo when workflow runs on main because main is protected
+    # 2. the coverage summary only needs to be written on a sticky comment in a pull request.
+    #
     - name: Store coverage badge in repo
       if: ${{ github.event_name == 'pull_request' }}
       uses: EndBug/add-and-commit@v7
       with:
         add: .github/badges/*coverage_badge.svg
 
-    # The next two steps are only for pull requests because the coverage summary only needs to be
-    # written on a sticky comment in a pull request.
+    # The next action, if run on push to main, would output an incorrect URL for the coverage badge
+    # because it uses github.head_ref to get name of the source branch of the pull request
+    # This particular property of the context `github` is only available if the
+    # workflow was triggred on events pull_request or pull_request_target
+    - name: Modify coverage summary to include badge and link to artifact (pull request version)
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        echo '![Line Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/linecoverage_badge.svg)  ' >> coveragereport/ModifiedSummary.md
+        echo '![Branch Coverage Badge](https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/.github/badges/branchcoverage_badge.svg)' >> coveragereport/ModifiedSummary.md
+        echo -e '\n' >> coveragereport/ModifiedSummary.md
+        cat coveragereport/Summary.md >> coveragereport/ModifiedSummary.md
+        echo '# Coverage Report' >> coveragereport/ModifiedSummary.md
+        echo -e '\n\n[Workflow run summary with link to artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (contains HTML coverage report)' >> coveragereport/ModifiedSummary.md
 
+    # This also appears in workflow that doesn't write out badges
+    # in PR but have included it again as file name is different
+    # (ModifiedSummary.md instead of Summary.md)
     - name: Publish coverage summary
       if: ${{ github.event_name == 'pull_request' }}
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        path: coveragereport/Summary.md
+        path: coveragereport/ModifiedSummary.md
